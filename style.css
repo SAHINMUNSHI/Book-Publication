@@ -1,0 +1,631 @@
+/* ============================================
+   PageTurn Publishing — Main Stylesheet
+   Aesthetic: Clean editorial / literary
+   ============================================ */
+
+/* ---------- CSS Variables ---------- */
+:root {
+    --color-bg:        #FAFAF7;
+    --color-surface:   #FFFFFF;
+    --color-accent:    #B05C3A;       /* warm terracotta */
+    --color-accent-lt: #F3E8E2;
+    --color-text:      #1A1A18;
+    --color-muted:     #6B6B65;
+    --color-border:    #E5E5E0;
+    --color-header-bg: #FFFFFF;
+  
+    --font-display:    'Playfair Display', Georgia, serif;
+    --font-body:       'DM Sans', system-ui, sans-serif;
+  
+    --radius-card:     8px;
+    --radius-btn:      6px;
+    --shadow-card:     0 2px 12px rgba(0,0,0,0.07);
+    --shadow-hover:    0 6px 24px rgba(0,0,0,0.12);
+  
+    --max-width:       1140px;
+    --header-h:        64px;
+  }
+  
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
+  
+  /* ---------- Container ---------- */
+  .container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  
+  /* ---------- Section ---------- */
+  .section {
+    padding: 72px 0;
+  }
+  
+  /* ============================================
+     HEADER
+     ============================================ */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-header-bg);
+    border-bottom: 1px solid var(--color-border);
+    height: var(--header-h);
+  }
+  
+  .header-inner {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Logo */
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+  }
+  .logo span {
+    color: var(--color-accent);
+    font-weight: 400;
+  }
+  
+  /* Nav */
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    transition: color 0.2s;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: var(--color-accent);
+    transition: width 0.25s ease;
+  }
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-text);
+  }
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    width: 100%;
+  }
+  
+  /* Hamburger (mobile) */
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: 4px;
+  }
+  
+  /* Mobile nav drawer */
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 16px 24px 20px;
+    gap: 16px;
+  }
+  .mobile-nav .nav-link {
+    font-size: 1rem;
+  }
+  .mobile-nav.open {
+    display: flex;
+  }
+  
+  /* ============================================
+     BUTTONS
+     ============================================ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: var(--radius-btn);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .btn:active { transform: translateY(1px); }
+  
+  .btn-primary {
+    background: var(--color-accent);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: #9A4F31;
+    box-shadow: 0 4px 16px rgba(176, 92, 58, 0.35);
+  }
+  
+  .btn-outline {
+    background: transparent;
+    color: var(--color-accent);
+    border: 1.5px solid var(--color-accent);
+  }
+  .btn-outline:hover {
+    background: var(--color-accent-lt);
+  }
+  
+  .btn-large {
+    padding: 14px 32px;
+    font-size: 1rem;
+  }
+  
+  /* ============================================
+     HERO
+     ============================================ */
+  .hero {
+    background: var(--color-surface);
+    padding: 80px 0 72px;
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  
+  .hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+  }
+  
+  .hero-text {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+  }
+  
+  .hero-heading {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+    margin-bottom: 20px;
+  }
+  .hero-heading em {
+    font-style: italic;
+    color: var(--color-accent);
+  }
+  
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--color-muted);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 420px;
+  }
+  
+  /* Decorative book stack (CSS only) */
+  .hero-visual {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  .hero-book-stack {
+    position: relative;
+    width: 160px;
+    height: 200px;
+  }
+  
+  .stack-book {
+    position: absolute;
+    border-radius: 4px 6px 6px 4px;
+    box-shadow: 4px 4px 12px rgba(0,0,0,0.18);
+  }
+  .b1 {
+    width: 120px; height: 172px;
+    background: linear-gradient(145deg, #4A6FA5, #2D4A7A);
+    bottom: 0; left: 20px;
+    transform: rotate(-6deg);
+  }
+  .b2 {
+    width: 120px; height: 162px;
+    background: linear-gradient(145deg, #B05C3A, #7A3A22);
+    bottom: 8px; left: 30px;
+    transform: rotate(2deg);
+  }
+  .b3 {
+    width: 120px; height: 178px;
+    background: linear-gradient(145deg, #5B8C5A, #3A6039);
+    bottom: 2px; left: 10px;
+    transform: rotate(-1deg);
+  }
+  
+  /* ============================================
+     SECTION HEADER
+     ============================================ */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .section-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    transition: opacity 0.2s;
+  }
+  .section-link:hover { opacity: 0.7; }
+  
+  /* ============================================
+     BOOK CARDS GRID
+     ============================================ */
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 28px;
+  }
+  
+  /* Card */
+  .book-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.22s, box-shadow 0.22s;
+    cursor: pointer;
+  }
+  .book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  
+  /* Cover */
+  .card-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px 16px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%);
+  }
+  
+  .cover-spine {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 10px;
+    background: rgba(0,0,0,0.25);
+  }
+  
+  .cover-text {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+  .cover-book-title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .cover-book-author {
+    display: block;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.05em;
+  }
+  
+  /* Card body */
+  .card-body {
+    padding: 18px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-genre {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+  }
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+  .card-author {
+    font-size: 0.82rem;
+    color: var(--color-muted);
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-border);
+  }
+  .card-price {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  
+  /* ============================================
+     PAGE HERO (inner pages)
+     ============================================ */
+  .page-hero {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 52px 0 44px;
+  }
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
+  }
+  .page-subtitle {
+    font-size: 1rem;
+    color: var(--color-muted);
+    max-width: 480px;
+  }
+  
+  /* ============================================
+     PRODUCT PAGE
+     ============================================ */
+  .product-section { padding-bottom: 40px; }
+  
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    margin-bottom: 36px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--color-accent); }
+  
+  .product-layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  
+  .product-image-wrap {
+    position: sticky;
+    top: calc(var(--header-h) + 24px);
+  }
+  
+  .product-cover {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 6px 10px 10px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: -6px 0 0 rgba(0,0,0,0.2), 6px 8px 32px rgba(0,0,0,0.25);
+    position: relative;
+  }
+  .product-cover::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 14px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px 0 0 6px;
+  }
+  .product-cover-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+  }
+  .product-cover-author {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+    letter-spacing: 0.06em;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .product-details { padding-top: 8px; }
+  .product-genre {
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+  }
+  .product-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .product-author {
+    font-size: 1rem;
+    color: var(--color-muted);
+    margin-bottom: 20px;
+  }
+  .product-price {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 24px;
+  }
+  .product-description {
+    font-size: 1rem;
+    color: var(--color-muted);
+    line-height: 1.75;
+    margin-bottom: 32px;
+    max-width: 520px;
+  }
+  .product-note {
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+  }
+  .product-note em {
+    color: var(--color-text);
+  }
+  
+  /* ============================================
+     RELATED SECTION
+     ============================================ */
+  .related-section {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding-top: 56px;
+  }
+  
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .site-footer {
+    background: var(--color-text);
+    color: rgba(255,255,255,0.9);
+    padding: 40px 0;
+  }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .footer-copy {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+  }
+  
+  /* ============================================
+     RESPONSIVE — TABLET
+     ============================================ */
+  @media (max-width: 900px) {
+    .hero-inner {
+      flex-direction: column;
+      gap: 40px;
+      text-align: center;
+    }
+    .hero-sub { margin: 0 auto 36px; }
+    .hero-visual { flex: none; }
+  
+    .product-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .product-image-wrap {
+      position: static;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .product-details { padding-top: 0; }
+  }
+  
+  /* ============================================
+     RESPONSIVE — MOBILE
+     ============================================ */
+  @media (max-width: 600px) {
+    .section { padding: 48px 0; }
+  
+    /* Header */
+    .nav { display: none; }
+    .hamburger { display: block; }
+  
+    /* Hero */
+    .hero { padding: 56px 0 48px; }
+    .hero-heading { font-size: 2.4rem; }
+  
+    /* Grid — 2 cols on small phones */
+    .books-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .card-body { padding: 12px; }
+    .card-title { font-size: 0.9rem; }
+    .card-price { font-size: 1rem; }
+    .btn { font-size: 0.8rem; padding: 9px 14px; }
+  
+    /* Footer */
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }

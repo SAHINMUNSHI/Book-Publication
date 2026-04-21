@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PageTurn Publishing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">PageTurn <span>Publishing</span></a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="books.html" class="nav-link">Books</a>
+      </nav>
+      <!-- Mobile hamburger -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">&#9776;</button>
+    </div>
+    <!-- Mobile nav drawer -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="books.html" class="nav-link">Books</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Welcome to PageTurn</p>
+        <h1 class="hero-heading">Buy Books<br /><em>Online</em></h1>
+        <p class="hero-sub">Simple and fast ordering via website and WhatsApp.<br />Great reads, delivered to your door.</p>
+        <a href="https://wa.me/1234567890?text=Hi%2C%20I%20want%20to%20browse%20your%20books!" 
+           target="_blank" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.556 4.117 1.528 5.844L.057 23.886l6.198-1.444A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.847 0-3.577-.485-5.083-1.333l-.364-.216-3.678.856.896-3.565-.237-.38A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order on WhatsApp
+        </a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-book-stack">
+          <div class="stack-book b1"></div>
+          <div class="stack-book b2"></div>
+          <div class="stack-book b3"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED BOOKS ============ -->
+  <section class="section featured-books">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Featured Books</h2>
+        <a href="books.html" class="section-link">View all →</a>
+      </div>
+      <div class="books-grid" id="featuredGrid">
+        <!-- Cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-logo">PageTurn Publishing</p>
+      <p class="footer-copy">&copy; 2026 PageTurn Publishing. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    // Render featured books (first 4)
+    renderBooks('featuredGrid', books.slice(0, 4));
+  </script>
+</body>
+</html>
