@@ -625,6 +625,28 @@ img { display: block; max-width: 100%; }
   .card-title { font-size: 0.9rem; }
   .card-price { font-size: 1rem; }
   .btn { font-size: 0.8rem; padding: 9px 14px; }
+  
+/* --- AFTER (replace with this) --- */
+.card-footer {
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;   /* prevent stretch when wrapped */
+}
+
+.card-actions {
+  flex-wrap: wrap;           /* ← THIS was missing; causes overflow */
+  gap: 6px;
+}
+
+.card-footer a,
+.card-footer button,
+.card-actions a,
+.card-actions button {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: center;
+  white-space: nowrap;
+}
 
   /* Footer */
   .footer-inner { flex-direction: column; align-items: flex-start; }
