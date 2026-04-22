@@ -1,6 +1,7 @@
 /* ============================================
    PageTurn Publishing — app.js
    Shared data + utility functions used by all pages
+   Includes: Cart system (localStorage-based)
    ============================================ */
 
 // ─────────────────────────────────────────
@@ -96,7 +97,10 @@ function renderBooks(containerId, booksArray) {
           <p class="card-author">${book.author}</p>
           <div class="card-footer">
             <span class="card-price">$${book.price.toFixed(2)}</span>
-            <a href="product.html?id=${book.id}" class="btn btn-outline" onclick="event.stopPropagation()">View Details</a>
+            <div class="card-actions" onclick="event.stopPropagation()">
+              <a href="product.html?id=${book.id}" class="btn btn-outline btn-sm">Details</a>
+              <button class="btn btn-primary btn-sm" onclick="addToCart(${book.id})">+ Cart</button>
+            </div>
           </div>
         </div>
       </div>
@@ -127,15 +131,114 @@ function darkenColor(hex, amount) {
 }
 
 // ─────────────────────────────────────────
+// CART — localStorage helpers
+// Cart items: [{ id, title, price, qty }]
+// ─────────────────────────────────────────
+const CART_KEY = 'pageturn_cart';
+
+/** Read cart from localStorage */
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+/** Save cart array to localStorage */
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+}
+
+/** Add a book to the cart (or increment qty if already present) */
+function addToCart(bookId) {
+  const book = books.find(b => b.id === bookId);
+  if (!book) return;
+
+  const cart = getCart();
+  const existing = cart.find(item => item.id === bookId);
+
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: book.id, title: book.title, price: book.price, qty: 1 });
+  }
+
+  saveCart(cart);
+  updateCartBadge();
+  showCartToast(book.title);
+}
+
+/** Remove an item from the cart entirely */
+function removeFromCart(bookId) {
+  const cart = getCart().filter(item => item.id !== bookId);
+  saveCart(cart);
+  updateCartBadge();
+}
+
+/** Change qty; remove if qty < 1 */
+function updateQty(bookId, delta) {
+  const cart = getCart();
+  const item = cart.find(i => i.id === bookId);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty < 1) {
+    removeFromCart(bookId);
+    return;
+  }
+  saveCart(cart);
+  updateCartBadge();
+}
+
+/** Total number of items in cart (sum of quantities) */
+function cartCount() {
+  return getCart().reduce((sum, item) => sum + item.qty, 0);
+}
+
+/** Update the cart badge count in the header */
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  if (!badge) return;
+  const count = cartCount();
+  badge.textContent = count;
+  badge.style.display = count > 0 ? 'inline-flex' : 'none';
+}
+
+/** Brief toast notification after adding to cart */
+function showCartToast(title) {
+  // Remove any existing toast
+  const old = document.getElementById('cartToast');
+  if (old) old.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'cartToast';
+  toast.className = 'cart-toast';
+  toast.innerHTML = `<span>✓</span> <em>${title}</em> added to cart`;
+  document.body.appendChild(toast);
+
+  // Animate in
+  requestAnimationFrame(() => toast.classList.add('show'));
+
+  // Remove after 2.5s
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
+// ─────────────────────────────────────────
 // MOBILE HAMBURGER MENU (shared across pages)
 // ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Hamburger toggle
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
-
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', () => {
       mobileNav.classList.toggle('open');
     });
   }
+
+  // Initialize badge on every page load
+  updateCartBadge();
 });

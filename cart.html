@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — PageTurn Publishing</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">PageTurn <span>Publishing</span></a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="books.html" class="nav-link">Books</a>
+        <a href="cart.html" class="nav-link active cart-nav-link">
+          Cart <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+        </a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">&#9776;</button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="books.html" class="nav-link">Books</a>
+      <a href="cart.html" class="nav-link">Cart</a>
+    </div>
+  </header>
+
+  <!-- ============ PAGE HERO ============ -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-title">Your Cart</h1>
+      <p class="page-subtitle" id="cartSubtitle">Review your selected books before ordering.</p>
+    </div>
+  </section>
+
+  <!-- ============ CART CONTENT ============ -->
+  <section class="section">
+    <div class="container">
+      <!-- Empty state (shown when cart is empty) -->
+      <div class="cart-empty" id="cartEmpty" style="display:none">
+        <div class="cart-empty-icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Browse our collection and add some books to get started.</p>
+        <a href="books.html" class="btn btn-primary">Browse Books</a>
+      </div>
+
+      <!-- Cart layout (shown when cart has items) -->
+      <div class="cart-layout" id="cartLayout" style="display:none">
+
+        <!-- Left: items list -->
+        <div>
+          <div class="cart-items" id="cartItemsList"></div>
+          <div style="margin-top:20px">
+            <a href="books.html" class="back-link">← Continue Shopping</a>
+          </div>
+        </div>
+
+        <!-- Right: order summary -->
+        <div class="cart-summary" id="cartSummary">
+          <h2 class="cart-summary-title">Order Summary</h2>
+          <div id="summaryRows"></div>
+          <div class="summary-row total">
+            <span>Grand Total</span>
+            <span id="grandTotal">$0.00</span>
+          </div>
+
+          <!-- WhatsApp checkout button -->
+          <button class="btn btn-primary btn-large" onclick="checkoutWhatsApp()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.556 4.117 1.528 5.844L.057 23.886l6.198-1.444A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.847 0-3.577-.485-5.083-1.333l-.364-.216-3.678.856.896-3.565-.237-.38A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+            Order on WhatsApp
+          </button>
+
+          <p style="font-size:0.78rem;color:var(--color-muted);margin-top:12px;text-align:center">
+            A pre-filled message will open in WhatsApp.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p class="footer-logo">PageTurn Publishing</p>
+      <p class="footer-copy">&copy; 2026 PageTurn Publishing. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    // ── Render the cart page ──
+    function renderCart() {
+      const cart = getCart();
+      const emptyEl   = document.getElementById('cartEmpty');
+      const layoutEl  = document.getElementById('cartLayout');
+      const listEl    = document.getElementById('cartItemsList');
+      const rowsEl    = document.getElementById('summaryRows');
+      const totalEl   = document.getElementById('grandTotal');
+      const subtitleEl = document.getElementById('cartSubtitle');
+
+      if (cart.length === 0) {
+        emptyEl.style.display  = 'block';
+        layoutEl.style.display = 'none';
+        subtitleEl.textContent = 'Your cart is currently empty.';
+        return;
+      }
+
+      emptyEl.style.display  = 'none';
+      layoutEl.style.display = 'grid';
+      subtitleEl.textContent = `You have ${cart.reduce((s,i)=>s+i.qty,0)} item(s) in your cart.`;
+
+      // Render item rows
+      listEl.innerHTML = cart.map(item => `
+        <div class="cart-item" id="item-${item.id}">
+          <div class="cart-item-info">
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-price-unit">$${item.price.toFixed(2)} each</div>
+          </div>
+          <div class="cart-item-subtotal">$${(item.price * item.qty).toFixed(2)}</div>
+          <div class="qty-stepper">
+            <button class="qty-btn" onclick="changeQty(${item.id}, -1)" aria-label="Decrease">−</button>
+            <span class="qty-value">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id}, +1)" aria-label="Increase">+</button>
+          </div>
+          <button class="cart-item-remove" onclick="removeItem(${item.id})" aria-label="Remove item" title="Remove">✕</button>
+        </div>
+      `).join('');
+
+      // Render summary rows
+      const grandTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      rowsEl.innerHTML = cart.map(item => `
+        <div class="summary-row">
+          <span>${item.title} × ${item.qty}</span>
+          <span>$${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+      `).join('');
+
+      totalEl.textContent = '$' + grandTotal.toFixed(2);
+      updateCartBadge();
+    }
+
+    // Qty change handler
+    function changeQty(bookId, delta) {
+      updateQty(bookId, delta);
+      renderCart();
+    }
+
+    // Remove handler
+    function removeItem(bookId) {
+      removeFromCart(bookId);
+      renderCart();
+    }
+
+    // ── WhatsApp checkout ──
+    function checkoutWhatsApp() {
+      const cart = getCart();
+      if (cart.length === 0) return;
+
+      // Build message lines
+      const lines = cart.map((item, i) =>
+        `${i + 1}. ${item.title} - ${item.qty} x $${item.price.toFixed(2)}`
+      );
+      const grandTotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      const message = [
+        'I want to order:',
+        '',
+        ...lines,
+        '',
+        `Total: $${grandTotal.toFixed(2)}`,
+        '',
+        'Name:',
+        'Address:',
+        'Phone:',
+      ].join('\n');
+
+      // Open WhatsApp — replace 1234567890 with real number
+      const url = `https://wa.me/1234567890?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    // Initial render
+    renderCart();
+  </script>
+</body>
+</html>
