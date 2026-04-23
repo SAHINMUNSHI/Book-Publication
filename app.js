@@ -1,88 +1,41 @@
 /* ============================================
    PageTurn Publishing — app.js
-   Shared data + utility functions used by all pages
-   Includes: Cart system (localStorage-based)
+   Shared utilities used by all pages.
+   Books data is loaded from books.json via fetch().
    ============================================ */
 
 // ─────────────────────────────────────────
-// BOOK DATA
-// Replace with real data / CMS / API later
+// BOOKS REGISTRY
+// Populated once by fetchBooks().
+// All pages that need book data must await fetchBooks().
 // ─────────────────────────────────────────
-const books = [
-  {
-    id: 1,
-    title: "The Quiet Hours",
-    author: "Elena Marsh",
-    genre: "Literary Fiction",
-    price: 14.99,
-    color: "#4A6FA5",  // cover background color
-    description:
-      "A deeply moving novel set in a coastal town where time seems to slow during the early morning hours. Elena Marsh weaves together three generations of women finding their voice and place in an ever-changing world. Winner of the 2024 Regional Fiction Award.",
-  },
-  {
-    id: 2,
-    title: "Rivers of Gold",
-    author: "Samuel Adeyemi",
-    genre: "Historical",
-    price: 16.99,
-    color: "#B05C3A",
-    description:
-      "Set against the backdrop of the 15th-century trans-Saharan trade routes, this epic tale follows a young merchant's journey from Timbuktu to the Mediterranean coast, exploring themes of ambition, betrayal, and resilience across a richly imagined world.",
-  },
-  {
-    id: 3,
-    title: "Midnight in the Garden",
-    author: "Priya Nair",
-    genre: "Mystery",
-    price: 12.99,
-    color: "#5B8C5A",
-    description:
-      "When a renowned botanist is found dead in her own greenhouse, detective Anika Sen must untangle a web of secrets buried beneath blooming flowers. Priya Nair's debut mystery is atmospheric, witty, and utterly unputdownable.",
-  },
-  {
-    id: 4,
-    title: "Fractured Light",
-    author: "James Holloway",
-    genre: "Science Fiction",
-    price: 15.99,
-    color: "#7A5C8C",
-    description:
-      "In a future where memories can be extracted and sold, one archivist discovers a recording that could rewrite human history. A thought-provoking exploration of identity, consent, and the commodification of the human mind.",
-  },
-  {
-    id: 5,
-    title: "Salt & Ember",
-    author: "Maria Kowalczyk",
-    genre: "Romance",
-    price: 11.99,
-    color: "#A04060",
-    description:
-      "Two chefs, one failing restaurant, and a last-chance food competition in coastal Portugal. Salt & Ember is a warm, witty, and wonderfully sensory romance that will have you booking a flight and reaching for seconds.",
-  },
-  {
-    id: 6,
-    title: "The Paper Atlas",
-    author: "Chen Wei",
-    genre: "Travel Memoir",
-    price: 13.99,
-    color: "#6B7A4A",
-    description:
-      "A cartographer's year-long journey retracing ancient Silk Road maps on foot and bicycle. Chen Wei's luminous prose transforms landscape into feeling, and geography into self-discovery, in this stunning debut memoir.",
-  },
-];
 
-// ─────────────────────────────────────────
-// RENDER BOOK CARDS into a grid container
-// Simple render (used by index.html featured grid & product.html related grid)
-// ─────────────────────────────────────────
-function renderBooks(containerId, booksArray) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
+/** Cached promise — guarantees only one network request per page load */
+let _booksPromise = null;
 
-  container.innerHTML = booksArray
-    .map((book) => buildCardHTML(book))
-    .join('');
+/**
+ * Fetch and cache all books from books.json.
+ * Returns a Promise that resolves to the books array.
+ * Safe to call multiple times — data is fetched only once.
+ */
+function fetchBooks() {
+  if (!_booksPromise) {
+    _booksPromise = fetch('books.json')
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load books.json (${res.status})`);
+        return res.json();
+      })
+      .catch(err => {
+        console.error('PageTurn: could not load books.json —', err);
+        return [];   // graceful fallback: empty catalogue
+      });
+  }
+  return _booksPromise;
 }
+
+// ─────────────────────────────────────────
+// CARD RENDERING
+// ─────────────────────────────────────────
 
 /** Build a single book card's HTML string */
 function buildCardHTML(book) {
@@ -111,60 +64,64 @@ function buildCardHTML(book) {
   `;
 }
 
+/**
+ * Simple render — replaces container contents entirely.
+ * Used by: index.html (featured grid), product.html (related grid).
+ */
+function renderBooks(containerId, booksArray) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = booksArray.map(buildCardHTML).join('');
+}
+
+// Navigate to product page
+function goToProduct(id) {
+  window.location.href = `product.html?id=${id}`;
+}
+
 // ─────────────────────────────────────────
-// PAGINATED BOOKS GRID
-// Used by books.html (and any page with search + load more)
+// PAGINATED + SEARCHABLE GRID
+// Used by: books.html
 // ─────────────────────────────────────────
 const PAGE_SIZE = 12;
 
-/** Internal state for the paginated grid */
 const gridState = {
-  sourceBooks: [],    // full dataset (all books or search results)
-  visibleCount: 0,    // how many cards are currently shown
+  sourceBooks:  [],
+  visibleCount: 0,
 };
 
-/**
- * Initialise (or re-initialise) the paginated grid.
- * Call once on page load, then again whenever the search query changes.
- * @param {string} gridId       – id of the .books-grid element
- * @param {string} loadMoreId   – id of the Load More button
- * @param {string} emptyMsgId  – id of the "no results" message element
- * @param {Array}  booksArray   – the full books array to paginate over
- */
-function initPaginatedGrid(gridId, loadMoreId, emptyMsgId, booksArray) {
+/** Reset grid and render the first PAGE_SIZE cards from booksArray */
+function initPaginatedGrid(gridId, loadMoreId, emptyMsgId, countId, booksArray) {
   gridState.sourceBooks  = booksArray;
   gridState.visibleCount = 0;
 
   const container = document.getElementById(gridId);
   if (container) container.innerHTML = '';
 
+  _updateResultCount(countId, booksArray.length);
   _appendNextPage(gridId, loadMoreId, emptyMsgId);
 }
 
-/**
- * Append the next PAGE_SIZE cards to the grid.
- * Called by initPaginatedGrid and the Load More button.
- */
+/** Append the next PAGE_SIZE cards — called by initPaginatedGrid and Load More */
 function _appendNextPage(gridId, loadMoreId, emptyMsgId) {
-  const container  = document.getElementById(gridId);
+  const container   = document.getElementById(gridId);
   const loadMoreBtn = document.getElementById(loadMoreId);
-  const emptyMsg   = document.getElementById(emptyMsgId);
+  const emptyMsg    = document.getElementById(emptyMsgId);
   if (!container) return;
 
   const { sourceBooks, visibleCount } = gridState;
-  const nextSlice = sourceBooks.slice(visibleCount, visibleCount + PAGE_SIZE);
 
-  // No books at all → show empty message
   if (sourceBooks.length === 0) {
-    if (emptyMsg) emptyMsg.style.display = 'block';
+    if (emptyMsg)    emptyMsg.style.display    = 'block';
     if (loadMoreBtn) loadMoreBtn.style.display = 'none';
     return;
   }
 
   if (emptyMsg) emptyMsg.style.display = 'none';
 
-  // Append cards
-  const fragment = document.createDocumentFragment();
+  const nextSlice = sourceBooks.slice(visibleCount, visibleCount + PAGE_SIZE);
+  const fragment  = document.createDocumentFragment();
+
   nextSlice.forEach(book => {
     const tmp = document.createElement('div');
     tmp.innerHTML = buildCardHTML(book).trim();
@@ -174,41 +131,94 @@ function _appendNextPage(gridId, loadMoreId, emptyMsgId) {
 
   gridState.visibleCount += nextSlice.length;
 
-  // Show / hide Load More
   if (loadMoreBtn) {
-    const hasMore = gridState.visibleCount < sourceBooks.length;
-    loadMoreBtn.style.display = hasMore ? 'block' : 'none';
+    loadMoreBtn.style.display =
+      gridState.visibleCount < sourceBooks.length ? 'block' : 'none';
   }
 }
 
-/**
- * Wire up search input + load-more button for a paginated grid page.
- * @param {string} searchId    – id of the <input> search field
- * @param {string} gridId      – id of the .books-grid element
- * @param {string} loadMoreId  – id of the Load More button
- * @param {string} emptyMsgId  – id of the "no results" element
- * @param {Array}  allBooks    – the full books source array
- */
-function setupBooksPage(searchId, gridId, loadMoreId, emptyMsgId, allBooks) {
-  // Initial render
-  initPaginatedGrid(gridId, loadMoreId, emptyMsgId, allBooks);
+/** Update the optional result-count label */
+function _updateResultCount(countId, total) {
+  const el = document.getElementById(countId);
+  if (!el) return;
+  el.textContent = total === 0 ? '' : `${total} book${total === 1 ? '' : 's'} found`;
+}
 
-  // Search — instant filter on input
-  const searchInput = document.getElementById(searchId);
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.trim().toLowerCase();
-      const filtered = query
-        ? allBooks.filter(b =>
-            b.title.toLowerCase().includes(query) ||
-            b.author.toLowerCase().includes(query)
-          )
-        : allBooks;
-      initPaginatedGrid(gridId, loadMoreId, emptyMsgId, filtered);
-    });
+// ─────────────────────────────────────────
+// DEBOUNCE HELPER
+// ─────────────────────────────────────────
+function debounce(fn, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+// ─────────────────────────────────────────
+// BOOKS PAGE BOOTSTRAP  (books.html)
+// fetch → query-param pre-fill → search → pagination
+// ─────────────────────────────────────────
+
+/**
+ * @param {string} searchId   – id of the <input> search field
+ * @param {string} gridId     – id of the .books-grid element
+ * @param {string} loadMoreId – id of the Load More button
+ * @param {string} emptyMsgId – id of the "no results" element
+ * @param {string} countId    – id of the results-count label (optional)
+ */
+async function setupBooksPage(searchId, gridId, loadMoreId, emptyMsgId, countId) {
+  // 1. Show a loading state while JSON is fetching
+  const container = document.getElementById(gridId);
+  if (container) {
+    container.innerHTML =
+      '<p class="books-loading-msg">Loading books…</p>';
   }
 
-  // Load More button
+  // 2. Fetch data
+  const allBooks = await fetchBooks();
+
+  // Clear loading message
+  if (container) container.innerHTML = '';
+
+  // 3. Read ?q= query param (set by homepage search redirect)
+  const params       = new URLSearchParams(window.location.search);
+  const initialQuery = params.get('q') || '';
+
+  // 4. Pre-fill search input if arriving from homepage
+  const searchInput = document.getElementById(searchId);
+  if (searchInput && initialQuery) {
+    searchInput.value = initialQuery;
+  }
+
+  // 5. Filter helper
+  const applyFilter = (query) => {
+    const q = query.trim().toLowerCase();
+    return q
+      ? allBooks.filter(b =>
+          b.title.toLowerCase().includes(q) ||
+          b.author.toLowerCase().includes(q)
+        )
+      : allBooks;
+  };
+
+  // 6. Render first page
+  initPaginatedGrid(gridId, loadMoreId, emptyMsgId, countId, applyFilter(initialQuery));
+
+  // 7. Wire debounced search (300 ms delay)
+  if (searchInput) {
+    searchInput.addEventListener(
+      'input',
+      debounce(() => {
+        initPaginatedGrid(
+          gridId, loadMoreId, emptyMsgId, countId,
+          applyFilter(searchInput.value)
+        );
+      }, 300)
+    );
+  }
+
+  // 8. Load More button
   const loadMoreBtn = document.getElementById(loadMoreId);
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', () => {
@@ -217,53 +227,72 @@ function setupBooksPage(searchId, gridId, loadMoreId, emptyMsgId, allBooks) {
   }
 }
 
-// Navigate to product page
-function goToProduct(id) {
-  window.location.href = `product.html?id=${id}`;
+// ─────────────────────────────────────────
+// HOMEPAGE SEARCH  (index.html)
+// Redirects to books.html?q=<query>
+// ─────────────────────────────────────────
+
+/**
+ * Wire the homepage search input.
+ * Enter key → redirect immediately.
+ * 600 ms idle after typing → redirect automatically.
+ * @param {string} inputId – id of the homepage <input>
+ */
+function setupHomepageSearch(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  const redirect = () => {
+    const q = input.value.trim();
+    window.location.href = q
+      ? `books.html?q=${encodeURIComponent(q)}`
+      : 'books.html';
+  };
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') redirect();
+  });
+
+  // Auto-redirect after 600 ms of inactivity (feels instant to user)
+  input.addEventListener('input', debounce(redirect, 600));
 }
 
 // ─────────────────────────────────────────
-// UTILITY: Simple color darkening (hex)
+// UTILITY: Simple hex color darkening
 // ─────────────────────────────────────────
 function darkenColor(hex, amount) {
-  // Remove # if present
   hex = hex.replace('#', '');
   const num = parseInt(hex, 16);
   let r = (num >> 16) - amount;
   let g = ((num >> 8) & 0xff) - amount;
   let b = (num & 0xff) - amount;
-  r = Math.max(0, r);
-  g = Math.max(0, g);
-  b = Math.max(0, b);
-  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+  return `#${[r, g, b].map(v => Math.max(0, v).toString(16).padStart(2, '0')).join('')}`;
 }
 
 // ─────────────────────────────────────────
 // CART — localStorage helpers
-// Cart items: [{ id, title, price, qty }]
 // ─────────────────────────────────────────
 const CART_KEY = 'pageturn_cart';
 
-/** Read cart from localStorage */
 function getCart() {
-  try {
-    return JSON.parse(localStorage.getItem(CART_KEY)) || [];
-  } catch {
-    return [];
-  }
+  try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+  catch { return []; }
 }
 
-/** Save cart array to localStorage */
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
-/** Add a book to the cart (or increment qty if already present) */
-function addToCart(bookId) {
-  const book = books.find(b => b.id === bookId);
+/**
+ * Add a book to the cart.
+ * async because it looks up book data from the fetch cache.
+ */
+async function addToCart(bookId) {
+  const allBooks = await fetchBooks();
+  const book     = allBooks.find(b => b.id === bookId);
   if (!book) return;
 
-  const cart = getCart();
+  const cart     = getCart();
   const existing = cart.find(item => item.id === bookId);
 
   if (existing) {
@@ -277,57 +306,44 @@ function addToCart(bookId) {
   showCartToast(book.title);
 }
 
-/** Remove an item from the cart entirely */
 function removeFromCart(bookId) {
-  const cart = getCart().filter(item => item.id !== bookId);
-  saveCart(cart);
+  saveCart(getCart().filter(item => item.id !== bookId));
   updateCartBadge();
 }
 
-/** Change qty; remove if qty < 1 */
 function updateQty(bookId, delta) {
   const cart = getCart();
   const item = cart.find(i => i.id === bookId);
   if (!item) return;
   item.qty += delta;
-  if (item.qty < 1) {
-    removeFromCart(bookId);
-    return;
-  }
+  if (item.qty < 1) { removeFromCart(bookId); return; }
   saveCart(cart);
   updateCartBadge();
 }
 
-/** Total number of items in cart (sum of quantities) */
 function cartCount() {
   return getCart().reduce((sum, item) => sum + item.qty, 0);
 }
 
-/** Update the cart badge count in the header */
 function updateCartBadge() {
   const badge = document.getElementById('cartBadge');
   if (!badge) return;
   const count = cartCount();
-  badge.textContent = count;
-  badge.style.display = count > 0 ? 'inline-flex' : 'none';
+  badge.textContent    = count;
+  badge.style.display  = count > 0 ? 'inline-flex' : 'none';
 }
 
-/** Brief toast notification after adding to cart */
 function showCartToast(title) {
-  // Remove any existing toast
   const old = document.getElementById('cartToast');
   if (old) old.remove();
 
-  const toast = document.createElement('div');
-  toast.id = 'cartToast';
+  const toast     = document.createElement('div');
+  toast.id        = 'cartToast';
   toast.className = 'cart-toast';
   toast.innerHTML = `<span>✓</span> <em>${title}</em> added to cart`;
   document.body.appendChild(toast);
 
-  // Animate in
   requestAnimationFrame(() => toast.classList.add('show'));
-
-  // Remove after 2.5s
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 300);
@@ -335,18 +351,13 @@ function showCartToast(title) {
 }
 
 // ─────────────────────────────────────────
-// MOBILE HAMBURGER MENU (shared across pages)
+// MOBILE HAMBURGER (shared across all pages)
 // ─────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Hamburger toggle
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   if (hamburger && mobileNav) {
-    hamburger.addEventListener('click', () => {
-      mobileNav.classList.toggle('open');
-    });
+    hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
   }
-
-  // Initialize badge on every page load
   updateCartBadge();
 });

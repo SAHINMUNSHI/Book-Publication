@@ -583,6 +583,10 @@ img { display: block; max-width: 100%; }
    ============================================ */
 .books-search-wrap {
   margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .books-search-input {
@@ -604,7 +608,15 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 0 0 3px rgba(176, 92, 58, 0.12);
 }
 
-.books-empty-msg {
+/* Result count label */
+.books-result-count {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.books-empty-msg,
+.books-loading-msg {
   text-align: center;
   color: var(--color-muted);
   font-size: 0.95rem;
@@ -614,6 +626,48 @@ img { display: block; max-width: 100%; }
 .load-more-wrap {
   text-align: center;
   margin-top: 40px;
+}
+
+/* ============================================
+   HERO SEARCH (index.html)
+   ============================================ */
+.hero-search-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-search-input {
+  flex: 1;
+  min-width: 0;
+  max-width: 340px;
+  padding: 12px 18px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.hero-search-input::placeholder { color: var(--color-muted); }
+.hero-search-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(176, 92, 58, 0.12);
+}
+
+.hero-search-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .hero-search-wrap { flex-direction: column; align-items: stretch; }
+  .hero-search-input { max-width: 100%; }
+  .hero-search-btn   { width: 100%; justify-content: center; }
 }
 
 /* ============================================

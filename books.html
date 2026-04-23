@@ -52,6 +52,7 @@
           placeholder="Search by title or author…"
           autocomplete="off"
         />
+        <span class="books-result-count" id="booksResultCount"></span>
       </div>
 
       <!-- Grid -->
@@ -82,7 +83,7 @@
 
   <script src="app.js"></script>
   <script>
-    setupBooksPage('bookSearch', 'allBooksGrid', 'loadMoreBtn', 'booksEmptyMsg', books);
+    setupBooksPage('bookSearch', 'allBooksGrid', 'loadMoreBtn', 'booksEmptyMsg', 'booksResultCount');
   </script>
 </body>
 </html>
