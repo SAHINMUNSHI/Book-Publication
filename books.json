@@ -1,56 +1,87 @@
 [
-  {
-    "id": 1,
-    "title": "The Quiet Hours",
-    "author": "Elena Marsh",
-    "genre": "Literary Fiction",
-    "price": 14.99,
-    "color": "#4A6FA5",
-    "description": "A deeply moving novel set in a coastal town where time seems to slow during the early morning hours. Elena Marsh weaves together three generations of women finding their voice and place in an ever-changing world. Winner of the 2024 Regional Fiction Award."
-  },
-  {
-    "id": 2,
-    "title": "Rivers of Gold",
-    "author": "Samuel Adeyemi",
-    "genre": "Historical",
-    "price": 16.99,
-    "color": "#B05C3A",
-    "description": "Set against the backdrop of the 15th-century trans-Saharan trade routes, this epic tale follows a young merchant's journey from Timbuktu to the Mediterranean coast, exploring themes of ambition, betrayal, and resilience across a richly imagined world."
-  },
-  {
-    "id": 3,
-    "title": "Midnight in the Garden",
-    "author": "Priya Nair",
-    "genre": "Mystery",
-    "price": 12.99,
-    "color": "#5B8C5A",
-    "description": "When a renowned botanist is found dead in her own greenhouse, detective Anika Sen must untangle a web of secrets buried beneath blooming flowers. Priya Nair's debut mystery is atmospheric, witty, and utterly unputdownable."
-  },
-  {
-    "id": 4,
-    "title": "Fractured Light",
-    "author": "James Holloway",
-    "genre": "Science Fiction",
-    "price": 15.99,
-    "color": "#7A5C8C",
-    "description": "In a future where memories can be extracted and sold, one archivist discovers a recording that could rewrite human history. A thought-provoking exploration of identity, consent, and the commodification of the human mind."
-  },
-  {
-    "id": 5,
-    "title": "Salt & Ember",
-    "author": "Maria Kowalczyk",
-    "genre": "Romance",
-    "price": 11.99,
-    "color": "#A04060",
-    "description": "Two chefs, one failing restaurant, and a last-chance food competition in coastal Portugal. Salt & Ember is a warm, witty, and wonderfully sensory romance that will have you booking a flight and reaching for seconds."
-  },
-  {
-    "id": 6,
-    "title": "The Paper Atlas",
-    "author": "Chen Wei",
-    "genre": "Travel Memoir",
-    "price": 13.99,
-    "color": "#6B7A4A",
-    "description": "A cartographer's year-long journey retracing ancient Silk Road maps on foot and bicycle. Chen Wei's luminous prose transforms landscape into feeling, and geography into self-discovery, in this stunning debut memoir."
-  }
+  { "id": 1, "title": "The Quiet Hours", "author": "Elena Marsh", "genre": "Literary Fiction", "price": 14.99, "color": "#4A6FA5", "description": "A deeply moving novel set in a coastal town..." },
+  { "id": 2, "title": "Rivers of Gold", "author": "Samuel Adeyemi", "genre": "Historical", "price": 16.99, "color": "#B05C3A", "description": "Set against the backdrop of the trans-Saharan trade..." },
+  { "id": 3, "title": "Midnight in the Garden", "author": "Priya Nair", "genre": "Mystery", "price": 12.99, "color": "#5B8C5A", "description": "When a botanist is found dead..." },
+  { "id": 4, "title": "Fractured Light", "author": "James Holloway", "genre": "Science Fiction", "price": 15.99, "color": "#7A5C8C", "description": "In a future where memories can be extracted..." },
+  { "id": 5, "title": "Salt & Ember", "author": "Maria Kowalczyk", "genre": "Romance", "price": 11.99, "color": "#A04060", "description": "Two chefs, one restaurant..." },
+  { "id": 6, "title": "The Paper Atlas", "author": "Chen Wei", "genre": "Travel Memoir", "price": 13.99, "color": "#6B7A4A", "description": "A cartographer's journey..." },
+
+  { "id": 7, "title": "Echoes of Silence", "author": "Liam Carter", "genre": "Literary Fiction", "price": 13.49, "color": "#4A6FA5", "description": "A quiet town hides loud secrets..." },
+  { "id": 8, "title": "Empire of Dust", "author": "Nadia Rahman", "genre": "Historical", "price": 17.49, "color": "#B05C3A", "description": "A fallen empire remembered..." },
+  { "id": 9, "title": "Shadow Code", "author": "Arjun Mehta", "genre": "Thriller", "price": 12.49, "color": "#5B8C5A", "description": "A hacker uncovers a global conspiracy..." },
+  { "id": 10, "title": "Neon Skies", "author": "Tara Collins", "genre": "Science Fiction", "price": 15.49, "color": "#7A5C8C", "description": "A city lit by artificial suns..." },
+
+  { "id": 11, "title": "Love in Verona", "author": "Isabella Rossi", "genre": "Romance", "price": 10.99, "color": "#A04060", "description": "A love story across time..." },
+  { "id": 12, "title": "Maps of Memory", "author": "Chen Wei", "genre": "Travel Memoir", "price": 14.49, "color": "#6B7A4A", "description": "Journeys that shape identity..." },
+
+  { "id": 13, "title": "Broken Verses", "author": "Noah Blake", "genre": "Poetry", "price": 9.99, "color": "#4A6FA5", "description": "Poems of loss and healing..." },
+  { "id": 14, "title": "Crimson Tide", "author": "Olivia Hart", "genre": "Mystery", "price": 13.99, "color": "#B05C3A", "description": "A murder beneath the waves..." },
+  { "id": 15, "title": "Binary Dreams", "author": "Ethan Park", "genre": "Science Fiction", "price": 16.49, "color": "#5B8C5A", "description": "AI begins to dream..." },
+  { "id": 16, "title": "Falling Petals", "author": "Yuki Tanaka", "genre": "Romance", "price": 11.49, "color": "#7A5C8C", "description": "A fleeting spring romance..." },
+
+  { "id": 17, "title": "Desert Wind", "author": "Ahmed Khan", "genre": "Historical", "price": 15.99, "color": "#A04060", "description": "Survival in the dunes..." },
+  { "id": 18, "title": "The Last Signal", "author": "Grace Turner", "genre": "Thriller", "price": 13.49, "color": "#6B7A4A", "description": "A signal from beyond..." },
+
+  { "id": 19, "title": "Hidden Pages", "author": "Sophia Lee", "genre": "Mystery", "price": 12.99, "color": "#4A6FA5", "description": "A library hides secrets..." },
+  { "id": 20, "title": "Golden Horizon", "author": "Daniel Cruz", "genre": "Adventure", "price": 14.99, "color": "#B05C3A", "description": "Journey to the unknown..." },
+
+  { "id": 21, "title": "Velvet Nights", "author": "Ava Morgan", "genre": "Romance", "price": 10.49, "color": "#5B8C5A", "description": "City lights and love..." },
+  { "id": 22, "title": "Time Fragments", "author": "Leo Bennett", "genre": "Science Fiction", "price": 15.49, "color": "#7A5C8C", "description": "Time breaks apart..." },
+
+  { "id": 23, "title": "Ocean Whispers", "author": "Maya Sen", "genre": "Literary Fiction", "price": 13.49, "color": "#A04060", "description": "Stories carried by waves..." },
+  { "id": 24, "title": "Iron Kingdom", "author": "Victor Stein", "genre": "Fantasy", "price": 17.99, "color": "#6B7A4A", "description": "A kingdom forged in fire..." },
+
+  { "id": 25, "title": "Silent Witness", "author": "Hannah Roy", "genre": "Thriller", "price": 12.99, "color": "#4A6FA5", "description": "A witness who cannot speak..." },
+  { "id": 26, "title": "Moonlit Path", "author": "Kaito Sora", "genre": "Romance", "price": 11.99, "color": "#B05C3A", "description": "A love under moonlight..." },
+
+  { "id": 27, "title": "Storm Breaker", "author": "Chris Nolan", "genre": "Adventure", "price": 14.49, "color": "#5B8C5A", "description": "Facing the storm..." },
+  { "id": 28, "title": "Digital Souls", "author": "Riya Das", "genre": "Science Fiction", "price": 15.99, "color": "#7A5C8C", "description": "Humans in the cloud..." },
+
+  { "id": 29, "title": "Autumn Letters", "author": "Emma Scott", "genre": "Literary Fiction", "price": 12.49, "color": "#A04060", "description": "Letters never sent..." },
+  { "id": 30, "title": "Ancient Echo", "author": "Raj Patel", "genre": "Historical", "price": 16.49, "color": "#6B7A4A", "description": "Echoes of the past..." },
+
+  { "id": 31, "title": "Frozen Truth", "author": "Nina Berg", "genre": "Mystery", "price": 13.49, "color": "#4A6FA5", "description": "A secret in ice..." },
+  { "id": 32, "title": "Fire Within", "author": "Carlos Vega", "genre": "Adventure", "price": 14.99, "color": "#B05C3A", "description": "Courage ignites..." },
+
+  { "id": 33, "title": "Hidden Flame", "author": "Sara Ali", "genre": "Romance", "price": 10.99, "color": "#5B8C5A", "description": "Love that burns..." },
+  { "id": 34, "title": "Quantum Night", "author": "Alan Brooks", "genre": "Science Fiction", "price": 16.99, "color": "#7A5C8C", "description": "Physics meets mystery..." },
+
+  { "id": 35, "title": "Whispering Hills", "author": "Anita Bose", "genre": "Literary Fiction", "price": 13.49, "color": "#A04060", "description": "Stories from the hills..." },
+  { "id": 36, "title": "Steel Crown", "author": "George Knight", "genre": "Fantasy", "price": 18.49, "color": "#6B7A4A", "description": "A crown of power..." },
+
+  { "id": 37, "title": "Dark Signal", "author": "Ibrahim Noor", "genre": "Thriller", "price": 12.99, "color": "#4A6FA5", "description": "A dangerous transmission..." },
+  { "id": 38, "title": "Summer Promise", "author": "Lily Grace", "genre": "Romance", "price": 11.49, "color": "#B05C3A", "description": "A promise of love..." },
+
+  { "id": 39, "title": "Lost Compass", "author": "Ben Turner", "genre": "Adventure", "price": 14.49, "color": "#5B8C5A", "description": "Finding direction..." },
+  { "id": 40, "title": "Future Code", "author": "Dev Shah", "genre": "Science Fiction", "price": 15.99, "color": "#7A5C8C", "description": "Code shapes reality..." },
+
+  { "id": 41, "title": "Fading Ink", "author": "Mira Kapoor", "genre": "Literary Fiction", "price": 12.99, "color": "#A04060", "description": "Words that disappear..." },
+  { "id": 42, "title": "Royal Blood", "author": "Henry Cole", "genre": "Historical", "price": 17.49, "color": "#6B7A4A", "description": "A royal legacy..." },
+
+  { "id": 43, "title": "Silent Code", "author": "Zara Khan", "genre": "Thriller", "price": 13.49, "color": "#4A6FA5", "description": "A code that kills..." },
+  { "id": 44, "title": "Golden Heart", "author": "Emily Stone", "genre": "Romance", "price": 10.99, "color": "#B05C3A", "description": "A pure love story..." },
+
+  { "id": 45, "title": "Deep Voyage", "author": "Arun Roy", "genre": "Adventure", "price": 14.99, "color": "#5B8C5A", "description": "Into the deep sea..." },
+  { "id": 46, "title": "Star Drift", "author": "Nova Reed", "genre": "Science Fiction", "price": 16.49, "color": "#7A5C8C", "description": "Drifting through stars..." },
+
+  { "id": 47, "title": "Empty Streets", "author": "Kabir Sen", "genre": "Literary Fiction", "price": 13.49, "color": "#A04060", "description": "Loneliness in cities..." },
+  { "id": 48, "title": "Empire Rise", "author": "Victor Hugo Jr.", "genre": "Historical", "price": 17.99, "color": "#6B7A4A", "description": "Rise of a new empire..." },
+
+  { "id": 49, "title": "Night Chase", "author": "Rohan Mehta", "genre": "Thriller", "price": 12.99, "color": "#4A6FA5", "description": "A race against time..." },
+  { "id": 50, "title": "Blush of Dawn", "author": "Ananya Roy", "genre": "Romance", "price": 11.49, "color": "#B05C3A", "description": "Love at sunrise..." },
+
+  { "id": 51, "title": "Jungle Trail", "author": "Peter Woods", "genre": "Adventure", "price": 14.49, "color": "#5B8C5A", "description": "Survival in jungle..." },
+  { "id": 52, "title": "AI Genesis", "author": "Rahul Dev", "genre": "Science Fiction", "price": 16.99, "color": "#7A5C8C", "description": "Birth of AI..." },
+
+  { "id": 53, "title": "City of Dreams", "author": "Fatima Noor", "genre": "Literary Fiction", "price": 13.49, "color": "#A04060", "description": "Dreams in city..." },
+  { "id": 54, "title": "Ancient War", "author": "Leonidas Rex", "genre": "Historical", "price": 18.49, "color": "#6B7A4A", "description": "War chronicles..." },
+
+  { "id": 55, "title": "Dark Alley", "author": "Imran Sheikh", "genre": "Thriller", "price": 12.49, "color": "#4A6FA5", "description": "Crime in shadows..." },
+  { "id": 56, "title": "Forever Us", "author": "Sophia Khan", "genre": "Romance", "price": 11.99, "color": "#B05C3A", "description": "Endless love..." },
+
+  { "id": 57, "title": "Island Escape", "author": "Daniel West", "genre": "Adventure", "price": 14.99, "color": "#5B8C5A", "description": "Escape to island..." },
+  { "id": 58, "title": "Cosmic Gate", "author": "Ishaan Verma", "genre": "Science Fiction", "price": 17.49, "color": "#7A5C8C", "description": "Portal to universe..." },
+
+  { "id": 59, "title": "Silent Words", "author": "Riya Sen", "genre": "Literary Fiction", "price": 13.49, "color": "#A04060", "description": "Unspoken emotions..." },
+  { "id": 60, "title": "Kingdom Fall", "author": "Arthur Blake", "genre": "Fantasy", "price": 18.99, "color": "#6B7A4A", "description": "A kingdom collapses..." }
 ]
