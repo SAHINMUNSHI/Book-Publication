@@ -42,9 +42,33 @@
   <!-- ============ BOOKS GRID ============ -->
   <section class="section">
     <div class="container">
-      <div class="books-grid" id="allBooksGrid">
-        <!-- Cards injected by JS -->
+
+      <!-- Search -->
+      <div class="books-search-wrap">
+        <input
+          type="search"
+          id="bookSearch"
+          class="books-search-input"
+          placeholder="Search by title or author…"
+          autocomplete="off"
+        />
       </div>
+
+      <!-- Grid -->
+      <div class="books-grid" id="allBooksGrid"></div>
+
+      <!-- Empty state -->
+      <p class="books-empty-msg" id="booksEmptyMsg" style="display:none">
+        No books found. Try a different search.
+      </p>
+
+      <!-- Load More -->
+      <div class="load-more-wrap">
+        <button class="btn btn-outline" id="loadMoreBtn" style="display:none">
+          Load More
+        </button>
+      </div>
+
     </div>
   </section>
 
@@ -58,7 +82,7 @@
 
   <script src="app.js"></script>
   <script>
-    renderBooks('allBooksGrid', books);
+    setupBooksPage('bookSearch', 'allBooksGrid', 'loadMoreBtn', 'booksEmptyMsg', books);
   </script>
 </body>
 </html>
