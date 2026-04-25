@@ -700,8 +700,9 @@ img { display: block; max-width: 100%; }
 @media (max-width: 600px) {
   .section { padding: 48px 0; }
 
-  /* Header */
-  .nav { display: none; }
+  /* Header — hide all nav links except the mobile cart icon */
+  .nav { display: flex; }
+  .nav .nav-link:not(.nav-cart-mobile) { display: none; }
   .hamburger { display: block; }
 
   /* Hero */
@@ -763,6 +764,58 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
   border-radius: 999px;
   line-height: 1;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s;
+}
+
+/* Badge pop animation — triggered by JS adding .badge-pop class */
+.cart-badge.badge-pop {
+  animation: badgeBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes badgeBounce {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.5); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* ── Mobile cart icon (nav-cart-mobile) ── */
+/* Hidden on desktop — shown only on mobile via media query below */
+.nav-cart-mobile {
+  display: none;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: var(--color-text);
+  transition: background 0.18s, color 0.18s;
+  padding: 0;
+}
+.nav-cart-mobile:hover,
+.nav-cart-mobile:focus-visible {
+  background: var(--color-accent-lt);
+  color: var(--color-accent);
+}
+.nav-cart-mobile svg {
+  display: block;
+  flex-shrink: 0;
+}
+/* The badge on the mobile icon sits top-right */
+.nav-cart-mobile .cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.6rem;
+  padding: 0 4px;
+}
+/* Suppress the underline pseudo-element for this link */
+.nav-cart-mobile::after { display: none !important; }
+
+@media (max-width: 600px) {
+  .nav-cart-mobile { display: inline-flex; }
 }
 
 /* Small button variant for card footer */

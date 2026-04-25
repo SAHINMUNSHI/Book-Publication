@@ -326,11 +326,20 @@ function cartCount() {
 }
 
 function updateCartBadge() {
-  const badge = document.getElementById('cartBadge');
-  if (!badge) return;
   const count = cartCount();
-  badge.textContent    = count;
-  badge.style.display  = count > 0 ? 'inline-flex' : 'none';
+
+  // Update all badge elements (desktop + mobile)
+  ['cartBadge', 'cartBadgeMobile'].forEach(id => {
+    const badge = document.getElementById(id);
+    if (!badge) return;
+    badge.textContent   = count;
+    badge.style.display = count > 0 ? 'inline-flex' : 'none';
+
+    // Bounce animation on update
+    badge.classList.remove('badge-pop');
+    void badge.offsetWidth; // force reflow to restart animation
+    if (count > 0) badge.classList.add('badge-pop');
+  });
 }
 
 function showCartToast(title) {
